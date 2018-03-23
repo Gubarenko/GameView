@@ -1,0 +1,197 @@
+﻿@model PagedList.IPagedList<GamesASP.Models.Game>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список игр</title>
+    <link href="/Content/www/css/styles.css" rel="stylesheet">
+
+    <link href="http://fonts.googleapis.com/css?family=Oswald:400,300" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+
+    <![endif]-->
+</head>
+<body>
+    <p><button onclick="location.href='/Home/Index/'">Назад</button></p>
+    <div class="wrapper container">
+
+
+        <nav class="navbar navbar-default">
+
+            <ul class="nav navbar-nav">
+
+                <li ><a href="/Home/Index/">Home</a></li>
+
+                <li class="active"><a href="/Home/Game/">Игры</a></li>
+
+                <li><a href="/Home/Developer/">Разработчики</a></li>
+
+            </ul>
+
+        </nav>
+
+        <div class="heading">
+
+            <h1>Узнай про игры все</h1>
+
+        </div>
+
+        <div class="row">
+
+            <aside class="col-md-7">
+
+                <ul class="list-group submenu">
+
+                    <li class="list-group-item active">Навигация</li>
+
+                    <li class="list-group-item"><a href="/Home/Index/">Home</a></li>
+
+                    <li class="list-group-item active"><a href="/Home/Game/">Игровые новинки</a></li>
+
+                    <li class="list-group-item"><a href="/Home/Developer/">Фабрика разработчиков</a></li>
+
+                </ul>
+
+            </aside>
+
+            <section class="col-md-17">
+
+
+                <h3>Список игр</h3>
+                <p align="center"> <img width="500" src="/Content/img/fon5_1.jpg" alt="Игры" title="Играй красиво" border="0"></p>
+            </section>
+                <table>
+                    <tr>
+                        <td width="150">
+                            @Html.ActionLink("Название игры", "Game", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        </td>
+                        <td><p>Логотип</p></td>
+                        <td width="100">
+                            @Html.ActionLink("Год релиза", "Game", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                        </td>
+                        <td width="100"><p>Производитель</p></td>
+                        <td width="100"><p>Жанр</p></td>
+                        <td><p>Описание игры</p></td>
+                        <td></td>
+                    </tr>
+
+                    @foreach (var h in ViewBag.Games)
+            {
+                <tr>
+                    <td width="150"><p>@h.GameName</p></td>
+                    <td><p><img width="100" src="@h.LogGame"></p></td>
+                    <td><p>@h.YearGame</p></td>
+                    <td>
+                        @h.Developer.DevName
+                    </td>
+                    <td>
+                        <p>
+                            @foreach (var g in h.Genres)
+                    {
+                        <li>@g.Genry</li>
+            }
+                        </p>
+                    </td>
+                    <td>
+                        <details close>
+                            <summary>Описание игры</summary>
+                            <p> @h.DescriptionGame</p>
+                        </details>
+                    </td>
+                </tr>
+    }
+                </table>
+                <div>
+                    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("Game", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+                </div>
+           
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <div class="container">
+
+            <div class="row">
+
+
+                <div class="col-md-4 sitemap">
+
+                    <h3>Sitemap</h3>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <a href="/Home/Index/">Home</a>
+
+                            <a href="/Home/Game/">Игры</a>
+
+                            <a href="/Home/Developer/">Разработчики</a>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 social">
+
+                    <h3>Social networks</h3>
+
+                    <a href="http://twitter.com/" class="social-icon twitter"></a>
+
+                    <a href="http://facebook.com/" class="social-icon facebook"></a>
+
+                    <a href="http://plus.google.com/" class="social-icon google-plus"></a>
+
+                    <a href="http://vimeo.com/" class="social-icon-small vimeo"></a>
+
+                    <a href="http://youtube.com/" class="social-icon-small youtube"></a>
+
+                    <a href="http://flickr.com/" class="social-icon-small flickr"></a>
+
+                    <a href="http://instagram.com/" class="social-icon-small instagram"></a>
+
+                    <a href="/rss/" class="social-icon-small rss"></a>
+
+                </div>
+
+                <div class="col-md-8 footer-logo">
+
+                    <a href="/"><img src="images/footer-logo.png" alt="Whitesquare logo"></a>
+
+                    <p>
+
+                        Copyright &copy; 2018 Геймобзор. Ко
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+</body>
+</html>
